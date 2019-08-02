@@ -69,11 +69,15 @@ public class Order {
     this.state = CANCELED;
   }
 
-  public void changeShippingInfo(ShippingInfo newShippingInfo) {
+  public void changeShippingInfo(ShippingInfo newInfo) {
+    checkShippingInfoChangeable();
+    this.shippingInfo = newInfo;
+  }
+
+  private void checkShippingInfoChangeable() {
     if (!isShippingChangeable()) {
       throw new IllegalStateException("can't change shipping in " + state);
     }
-    this.shippingInfo = newShippingInfo;
   }
 
   private boolean isShippingChangeable() {
