@@ -44,7 +44,8 @@ public class Order {
   }
 
   private void calculateTotalAmounts() {
-    this.totalAmounts = new Money(orderLines.stream().mapToInt(x -> x.getAmounts().getValue()).sum());
+    int sum = orderLines.stream().mapToInt(x -> x.getAmounts().getValue()).sum();
+    this.totalAmounts = new Money(sum);
   }
 
   private void verifyAtLeastOneOrMoreOrderLines(List<OrderLine> orderLines) {
@@ -53,7 +54,7 @@ public class Order {
     }
   }
 
-  public void changeShippedInfo(ShippingInfo newShippingInfo) {
+  public void changeShippingInfo(ShippingInfo newShippingInfo) {
     verifyNotYetShipped();
     setShippingInfo(newShippingInfo);
   }
@@ -69,10 +70,10 @@ public class Order {
     this.state = CANCELED;
   }
 
-  public void changeShippingInfo(ShippingInfo newInfo) {
-    checkShippingInfoChangeable();
-    this.shippingInfo = newInfo;
-  }
+  // public void changeShippingInfo(ShippingInfo newInfo) {
+  //   checkShippingInfoChangeable();
+  //   this.shippingInfo = newInfo;
+  // }
 
   private void checkShippingInfoChangeable() {
     if (!isShippingChangeable()) {
