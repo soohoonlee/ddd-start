@@ -4,16 +4,34 @@ import static com.ssoon.myshop.order.command.domain.OrderState.*;
 
 import com.ssoon.myshop.common.model.Money;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import lombok.Getter;
 
+@Entity
+@Table(name = "purchase_order")
 @Getter
+@Access(AccessType.FIELD)
 public class Order {
 
+  @EmbeddedId
   private OrderNo number;
+  @Embedded
   private Orderer orderer;
   private List<OrderLine> orderLines;
+  @Column(name = "total_amounts")
   private Money totalAmounts;
+  @Column(name = "state")
+  @Enumerated(EnumType.STRING)
   private OrderState state;
+  @Embedded
   private ShippingInfo shippingInfo;
 
   public Order(Orderer orderer, List<OrderLine> orderLines, ShippingInfo shippingInfo, OrderState state) {
