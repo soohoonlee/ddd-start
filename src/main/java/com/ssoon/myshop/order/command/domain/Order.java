@@ -6,12 +6,16 @@ import com.ssoon.myshop.common.model.Money;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import lombok.Getter;
 
@@ -25,6 +29,9 @@ public class Order {
   private OrderNo number;
   @Embedded
   private Orderer orderer;
+  @ElementCollection
+  @CollectionTable(name = "order_line", joinColumns = @JoinColumn(name = "order_number"))
+  @OrderColumn(name = "line_idx")
   private List<OrderLine> orderLines;
   @Column(name = "total_amounts")
   private Money totalAmounts;
